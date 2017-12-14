@@ -1,0 +1,22 @@
+{
+  "name": "events-action",
+  "version": "1.0.0",
+  "description": "Events action to handle all actions on event",
+  "main": "event-action.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deshpandega/events-action.git"
+  },
+  "author": "Gaurang Deshpande",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/deshpandega/events-action/issues"
+  },
+  "homepage": "https://github.com/deshpandega/events-action#readme",
+  "dependencies": {
+    "mongodb": "^3.0.0-rc0"
+  }
+}
