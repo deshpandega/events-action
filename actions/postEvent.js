@@ -9,6 +9,9 @@ module.exports = function postEvent(params){
   console.log("collection name -> "+collectionName);
 
   const event = {
+    "hobbies": [
+      {"name":""}
+    ],
     "name": "",
     "host": "",
     "description": "",
