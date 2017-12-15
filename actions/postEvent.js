@@ -60,11 +60,11 @@ module.exports = function postEvent(params){
 
 	  			// Add event to database
 		  		collection.insertOne(queryParam, (err, respond) => {
-		  			const op = respond.ops[0];
-		  			console.log("resp > "+op);
 		  			if(err){
 		  				reject(`404:${err}`);
 		  			}
+            const op = respond.ops[0];
+            console.log("resp > "+op);
 		  			console.log('user '+op.name+' added');
 		  			resolve(op);
 		  		});

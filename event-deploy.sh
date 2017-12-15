@@ -12,5 +12,8 @@ wsk -i package update hobbylocale
 # Create / Update action
 wsk -i action update guest/hobbylocale/postEvent event.zip --kind nodejs:6 --web true --param-file config.json --main=postEvent
 
+wsk -i action update guest/hobbylocale/getEvents event.zip --kind nodejs:6 --web true --param-file config.json --main=getEvents
+
 # Get url of actions
 wsk -i action get guest/hobbylocale/postEvent --url
+wsk -i action get guest/hobbylocale/getEvents --url
