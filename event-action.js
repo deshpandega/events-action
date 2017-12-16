@@ -5,6 +5,7 @@ const postEvent = require('./actions/postEvent');
 const getHostedEvents = require('./actions/getHostedEvents');
 const getRegisteredEvents = require('./actions/getRegisteredEvents');
 const getHobbies = require('./actions/getHobbies');
+const addCommentToEvent = require('./actions/addCommentToEvent');
 
 
 
@@ -15,3 +16,4 @@ exports.postEvent = postEvent;
 exports.getHostedEvents = getHostedEvents;
 exports.getRegisteredEvents = getRegisteredEvents;
 exports.getHobbies = getHobbies;
+exports.addCommentToEvent = addCommentToEvent;
