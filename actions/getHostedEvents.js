@@ -1,4 +1,4 @@
-module.exports = function searchEventsByHobby(params){
+module.exports = function getHostedEvents(params){
 	//import statements to use multiple modules
 	const mongoClient = require('mongodb').MongoClient;
 
@@ -12,11 +12,16 @@ module.exports = function searchEventsByHobby(params){
   let database;
   let dbClient;
 
-  const hobby = params.hobby;
-  // get all event by hobby to collection
-  const getAllEventsByHobby = (hobby) => {
+  const hostUser = {
+    "name":params.host.name,
+    "email":params.host.email,
+    "profileIcon":""
+  }
+
+  // get all event hosted by host
+  const getAllEventsHostedByHost = (hostUser) => {
   	return new Promise((resolve, rejet)=>{
-  		console.log('get events here');
+  		console.log('get events hosted by user here');
 
   		mongoClient.connect(databaseConnections, (err, client)=>{
   			if(err){
@@ -31,7 +36,8 @@ module.exports = function searchEventsByHobby(params){
 	  			const collection = database.collection(collectionName);
 
 	  			// Get events from database by hobby
-	  			collection.find({hobbies:{ $elemMatch : {name: hobby} } }).toArray((err, respond) => {
+	  			console.log("----->"+hostUser.email);
+	  			collection.find( { "host.email": hostUser.email } ).toArray((err, respond) => {
 	  				if(err){
 		  				reject(`404:${err}`);
 		  			}
@@ -45,11 +51,11 @@ module.exports = function searchEventsByHobby(params){
   	});
   }
 
-  //return event details by id and 
+  //return event details by host and 
   //catch error if any
-  return getAllEventsByHobby(hobby)
-  	.then((data) => {
-  		dbClient.close();		// Close DB client 
+  return getAllEventsHostedByHost(hostUser)
+  .then((data) => {
+  	dbClient.close();		// Close DB client 
   		return ({
   			headers: {
       		'Content-Type': 'application/json'
@@ -57,9 +63,9 @@ module.exports = function searchEventsByHobby(params){
     		statusCode: 200,
     		body : new Buffer(JSON.stringify(data)).toString('base64')
   		});
-  	})
-  	.catch((error)=>{
-  		dbClient.close();		// Close DB client 
+  })
+  .catch((error)=>{
+  	dbClient.close();		// Close DB client 
 
 	  	console.log("error is --->> "+error);
   	  const status = error.split(':')[0];

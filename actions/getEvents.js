@@ -1,4 +1,4 @@
-module.exports = function postEvent(params){
+module.exports = function getEvents(params){
 	//import statements to use multiple modules
 	const mongoClient = require('mongodb').MongoClient;
 
