@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/deshpandega/events-action#readme",
   "dependencies": {
-    "mongodb": "^3.0.0-rc0"
+    "mongodb": "^3.0.0-rc0",
+    "uuid": "^3.1.0"
   }
 }
