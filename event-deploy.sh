@@ -15,6 +15,7 @@ wsk -i action update guest/hobbylocale/getEvents event.zip --kind nodejs:6 --web
 wsk -i action update guest/hobbylocale/searchEventsByHobby event.zip --kind nodejs:6 --web true --param-file config.json --main=searchEventsByHobby
 wsk -i action update guest/hobbylocale/getHostedEvents event.zip --kind nodejs:6 --web true --param-file config.json --main=getHostedEvents
 wsk -i action update guest/hobbylocale/getRegisteredEvents event.zip --kind nodejs:6 --web true --param-file config.json --main=getRegisteredEvents
+wsk -i action update guest/hobbylocale/getHobbies event.zip --kind nodejs:6 --web true --param-file config.json --main=getHobbies
 
 # Get url of actions
 wsk -i action get guest/hobbylocale/postEvent --url
@@ -22,3 +23,4 @@ wsk -i action get guest/hobbylocale/getEvents --url
 wsk -i action get guest/hobbylocale/searchEventsByHobby --url
 wsk -i action get guest/hobbylocale/getHostedEvents --url
 wsk -i action get guest/hobbylocale/getRegisteredEvents --url
+wsk -i action get guest/hobbylocale/getHobbies --url
