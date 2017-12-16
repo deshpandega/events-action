@@ -1,5 +1,6 @@
 {
 	"mongoDB_connection" : "mongodb://hobbielocale:WeBDeVnEu@ds133746.mlab.com:33746/hobbylocale",
 	"collectionName":"events",
-	"jwt_secret":"|/|/Eb-D&|/-nEu"
+	"jwt_secret":"|/|/Eb-D&|/-nEu",
+	"hobbyCollectionName":"hobbies"
 }
