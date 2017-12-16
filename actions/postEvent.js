@@ -13,13 +13,24 @@ module.exports = function postEvent(params){
       {"name":""}
     ],
     "name": "",
-    "host": "",
+    "host": {
+      "name":"",
+      "email":"",
+      "profileIcon":""
+    },
     "description": "",
     "venue": "",
+    "bannerIcon":"",
     "date": "",
-    "free": true,
-    "entryfree": 0,
-    "attendee": [ ],
+    "duraction":"",
+    "entryfee": 0,
+    "attendee": [ 
+      {
+        "email":"",
+        "name":"",
+        "profileIcon":""
+      }
+    ],
     "rating": 0,
     "comments": [
       {
