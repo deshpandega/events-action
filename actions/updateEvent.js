@@ -1,17 +1,15 @@
-module.exports = function postEvent(params){
+module.exports =  function updateEvent (params) {
 	//import statements to use multiple modules
 	const mongoClient = require('mongodb').MongoClient;
-  const uuid_generation = require('uuid/v1');
 
 	// Environment variable we are loading as params from config.json file
   const collectionName = params.collectionName;
   const databaseConnections =  params.mongoDB_connection;
-  const uuid = uuid_generation(); 
-  
+
   console.log("collection name -> "+collectionName);
-  
+
   const event = {
-    "eid":uuid,
+  	"eid":"",
     "hobbies": [
       {"name":""}
     ],
@@ -52,19 +50,22 @@ module.exports = function postEvent(params){
   };
 
   // Overright the properties sent from user to event object above
-  const queryParam = Object.assign(event, params.event);
-
+  const eventParam = Object.assign(event, params.event);  
+  
+  // Overright the properties sent from user of attendee to blank attendee object above
+  const attendeeParam = params.attendee;
+ 
   // References to use throughtout
   let database;
   let dbClient;
-
+  
   //add event to collection
-  const addEventToCollection = (queryParam) => {
+  const updateEventInCollection = (eventParam, attendeeParam) => {
   	return new Promise((resolve, rejet)=>{
-  		console.log('add Event here');
-      
-      mongoClient.connect(databaseConnections, (err, client)=>{
-      	if(err){
+  		console.log('Update Event here');
+
+  		mongoClient.connect(databaseConnections, (err, client)=>{
+  			if(err){
   				console.log("error in DB connection -> "+err);
   				reject(`404:${err}`);
   			}
@@ -72,39 +73,50 @@ module.exports = function postEvent(params){
   				dbClient = client;
   				database = client.db('hobbylocale');
 
+  				const idToUpdate = eventParam.eid;
+  				console.log("This is value---> "+idToUpdate);
+
   				// Get collection name from database
 	  			const collection = database.collection(collectionName);
 
-	  			// Add event to database
-		  		collection.insertOne(queryParam, (err, respond) => {
-		  			if(err){
-		  				reject(`404:${err}`);
-		  			}
-            const op = respond.ops[0];
-            console.log("resp > "+op);
-		  			console.log('user '+op.name+' added');
-		  			resolve(op);
-		  		});
-      	}
+	  			// Update event to database
+	  			collection.update(
+	  				{ eid : idToUpdate },
+	  				{
+	  					$push:{
+	  						attendee: { email : attendeeParam.email , name : attendeeParam.name, profileIcon: attendeeParam.profileIcon }
+	  					}
+	  				},
+	  				(err, respond)=>{
+	  					if(err){
+		  					reject(`404:${err}`);
+		  				}
+		  				const op = respond.result.nModified;
+		  				if(op==0){
+		  					reject(`401:${attendeeParam.name} not added to event ${eventParam.name}`);	
+		  				}
+		  				console.log("solved");
+	  					resolve(op);
+	  				});
+  			}
   		});
-    });
+  	});
   };
-
 
   //return event details and 
   //catch error if any
-  return addEventToCollection(queryParam)
-  	.then((data) => {
+  return updateEventInCollection(eventParam, attendeeParam)
+  .then((data) => {
   		dbClient.close();		// Close DB client 
   		return ({
   			headers: {
         	'Content-Type': 'application/json'
       	},
       	statusCode: 200,
-      	body : new Buffer(JSON.stringify(queryParam)).toString('base64')
+      	body : new Buffer(JSON.stringify(`${attendeeParam.name} added to event ${eventParam.name}`)).toString('base64')
   		});
   	})
-  	.catch((error)=>{
+  .catch((error)=>{
   		dbClient.close();		// Close DB client 
 
   		console.log("error is --->> "+error);
@@ -119,5 +131,4 @@ module.exports = function postEvent(params){
           body: new Buffer(JSON.stringify(errorMessage)).toString('base64')
       });
   	});
-
 }
